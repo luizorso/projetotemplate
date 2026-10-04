@@ -1,22 +1,43 @@
 <!DOCTYPE html>
 
-  <html xmlns:th="http://www.thymeleaf.org">
- 
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Cadastro de Perfil</title>
+        <title th:text="${titulo}">Cadastro de Perfil</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" th:href="@{/styleForm.css}">
+           <!-- Css da Navbar -->
+        <link rel="stylesheet" th:href="@{/navbar.css}">
     </head>
     <body>
-        <form th:action="@{/resultado}" method="post">
-            <h3 th:text="${titulo}">Cadastro de Perfil</h3>
+        <!-- Importação do menu Navbar -->
+        <div th:replace="~{fragments/navbar :: menu}"></div>
+        
+        <div class="main-container">
+        <form th:action="@{/perfis/salvar}"
+              th:object="${perfilDTO}"
+              method="post">
+            <h3 th:text="${titulo}" style="text-align: center;"></h3>
+            <input type="hidden" th:field="*{id}">
             <div>
                 <label for="nome">Nome</label>
-                <input type="text" name="nome" th:value="${nome}" id="nome" >
+                <input type="text" 
+                       th:field="*{nome}" 
+                       id="nome"
+                       required>
             </div>
-            <div>
-                <button type="submit">Cadastrar</button>
-            </div>
+             <div class="form-actions">
+                    <a th:href="@{/perfis}" class="btn-cancel">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </a>
+                    <button type="submit" class="btn-submit">
+                        <i class="bi bi-check-lg"></i>
+                        <span th:text="${perfilDTO.id != null ? 'Atualizar' : 'Salvar'}">Salvar</span>
+                    </button>
+                </div>
+            
+            
         </form>
+        </div>
     </body>
 </html>
